@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- CURSOR PERSONALIZADO -->
+    <div class="custom-cursor" id="customCursor">💎</div>
 
     <!-- NAVEGACIÓN -->
     <nav class="navbar">
@@ -357,6 +359,36 @@
             const overlay = document.getElementById('overlay');
             sidebar.classList.toggle('active');
             overlay.classList.toggle('active');
+        }
+
+        // --- CURSOR PERSONALIZADO & ESTELA ---
+        const cursor = document.getElementById('customCursor');
+        let mouseX = 0;
+        let mouseY = 0;
+
+        // Actualizar posición del cursor principal
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+
+            createTrail(mouseX, mouseY);
+        });
+
+        // Función para crear partículas (Estela de cadena)
+        function createTrail(x, y) {
+            // Crear elemento div
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = x + 'px';
+            trail.style.top = y + 'px';
+            document.body.appendChild(trail);
+
+            // Eliminar después de la animación
+            setTimeout(() => {
+                trail.remove();
+            }, 600);
         }
     </script>
 </body>
