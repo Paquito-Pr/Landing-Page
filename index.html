@@ -11,7 +11,7 @@
 </head>
 <body>
     <!-- CURSOR PERSONALIZADO -->
-    <div class="custom-cursor" id="customCursor">💎</div>
+    <div class="custom-cursor" id="customCursor">🥤</div>
 
     <!-- NAVEGACIÓN -->
     <nav class="navbar">
@@ -32,7 +32,7 @@
         <a href="#" onclick="toggleMenu()"> Artistas</a>
         <a href="#" onclick="toggleMenu()"> Playlists</a>
         <a href="#" onclick="toggleMenu()"> Eventos / Tours</a>
-        <a href="#" onclick="toggleMenu()"> Merch Oficial</a>
+        <a href="#historia-generos" onclick="toggleMenu()"> Historia</a>
         <a href="#" onclick="toggleMenu()"> Contacto</a>
     </div>
 
@@ -45,10 +45,10 @@
 
     <!-- FILTROS -->
     <div class="filter-container" id="tracks">
-        <button class="filter-btn active" onclick="filterMusic('all')">Todo</button>
-        <button class="filter-btn" onclick="filterMusic('trap-es')">Trap España</button>
-        <button class="filter-btn" onclick="filterMusic('trap-us')">Trap US</button>
-        <button class="filter-btn" onclick="filterMusic('reggaeton')">Reggaeton</button>
+        <button class="filter-btn active" onclick="filterMusic('all', event)">Todo</button>
+        <button class="filter-btn" onclick="filterMusic('trap-es', event)">Trap España</button>
+        <button class="filter-btn" onclick="filterMusic('trap-us', event)">Trap US</button>
+        <button class="filter-btn" onclick="filterMusic('reggaeton', event)">Reggaeton</button>
     </div>
 
     <!-- GRID DE MÚSICA -->
@@ -57,9 +57,9 @@
         
         <!-- Card 1: Trap ES -->
         <div class="card" data-category="trap-es">
-            <div class="card-img bg-trap-es">ES</div>
+            <div class="card-img bg-trap-es" style="background-image: url('https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
-                <span class="tag tag-es">Trap ES</span>
+                <span class="tag tag-es">Trap Español</span>
                 <h3>Barras de Oro</h3>
                 <p>Artista: Yung Beef Type</p>
                 <button class="play-btn">▶</button>
@@ -68,9 +68,9 @@
 
         <!-- Card 2: Trap US -->
         <div class="card" data-category="trap-us">
-            <div class="card-img bg-trap-us">US</div>
+            <div class="card-img bg-trap-us" style="background-image: url('https://images.unsplash.com/photo-1601643157091-ce5c61845bb9?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
-                <span class="tag tag-us">Trap US</span>
+                <span class="tag tag-us">Trap Americano</span>
                 <h3>Atlanta Nights</h3>
                 <p>Artista: Future Flow</p>
                 <button class="play-btn">▶</button>
@@ -79,7 +79,7 @@
 
         <!-- Card 3: Reggaeton -->
         <div class="card" data-category="reggaeton">
-            <div class="card-img bg-reggaeton">PR</div>
+            <div class="card-img bg-reggaeton" style="background-image: url('https://images.unsplash.com/photo-1571330735066-03aaa9429d89?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
                 <span class="tag tag-reg">Reggaeton</span>
                 <h3>Perreo Intenso</h3>
@@ -90,7 +90,7 @@
 
         <!-- Card 4: Trap ES -->
         <div class="card" data-category="trap-es">
-            <div class="card-img bg-trap-es">ES</div>
+            <div class="card-img bg-trap-es" style="background-image: url('https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
                 <span class="tag tag-es">Trap ES</span>
                 <h3>Callejón 9</h3>
@@ -101,13 +101,59 @@
 
         <!-- Card 5: Reggaeton -->
         <div class="card" data-category="reggaeton">
-            <div class="card-img bg-reggaeton">COL</div>
+            <div class="card-img bg-reggaeton" style="background-image: url('https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
                 <span class="tag tag-reg">Reggaeton</span>
                 <h3>Medallo</h3>
                 <p>Artista: Feid Vibes</p>
                 <button class="play-btn">▶</button>
             </div>
+        </div>
+
+        <!-- Card 6: Trap US -->
+        <div class="card" data-category="trap-us">
+            <div class="card-img bg-trap-us" style="background-image: url('https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=500&q=80');"></div>
+            <div class="card-content">
+                <span class="tag tag-us">Trap Americano</span>
+                <h3>Skyline Beats</h3>
+                <p>Artista: Travis Scott Type</p>
+                <button class="play-btn">▶</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- HISTORIA DE CADA GENERO -->
+    <section class="history-section" id="historia-generos">
+        <div class="history-header">
+            <h2>Historia de cada g&eacute;nero</h2>
+            <p>Explora los or&iacute;genes y la evoluci&oacute;n de cada sonido urbano.</p>
+        </div>
+
+        <div class="history-grid">
+            <a class="history-square history-link" href="historia-trap-es.html" aria-label="Ir a la historia de Trap Español">
+                <h3>Trap Espa&ntilde;ol</h3>
+                <p>Nace de la calle y mezcla barras crudas con producciones oscuras.</p>
+            </a>
+            <a class="history-square history-link" href="historia-trap-us.html" aria-label="Ir a la historia de Trap US">
+                <h3>Trap US</h3>
+                <p>Atlanta impuls&oacute; un sonido global con beats 808 y autotune.</p>
+            </a>
+            <a class="history-square history-link" href="historia-reggaeton.html" aria-label="Ir a la historia de Reggaeton">
+                <h3>Reggaeton</h3>
+                <p>Del dembow caribe&ntilde;o al mainstream mundial sin perder su esencia.</p>
+            </a>
+            <a class="history-square history-link" href="historia-drill.html" aria-label="Ir a la historia de Drill">
+                <h3>Drill</h3>
+                <p>Ritmos fr&iacute;os y energ&iacute;a intensa desde Chicago hasta Europa.</p>
+            </a>
+            <a class="history-square history-link" href="historia-latin-trap.html" aria-label="Ir a la historia de Latin Trap">
+                <h3>Latin Trap</h3>
+                <p>Fusiona la actitud del trap con el flow latino contempor&aacute;neo.</p>
+            </a>
+            <a class="history-square history-link" href="historia-rnb-urbano.html" aria-label="Ir a la historia de R&B Urbano">
+                <h3>R&B Urbano</h3>
+                <p>Melod&iacute;as suaves y letras personales sobre bases urbanas modernas.</p>
+            </a>
         </div>
     </section>
 
@@ -148,14 +194,11 @@
 
     <script>
         // Lógica de Filtrado
-        function filterMusic(category) {
+        function filterMusic(category, event) {
             // 1. Actualizar botones activos
             const buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            
-            // Encontrar el botón clickeado (truco simple usando event.target o buscando por texto en una app real)
-            // Aquí simplemente asignamos active al botón que disparó el evento si pasáramos 'this', 
-            // pero para simplificar buscamos por el onclick en el DOM o simplemente iteramos:
+
             event.target.classList.add('active');
 
             // 2. Filtrar tarjetas
@@ -390,6 +433,7 @@
                 trail.remove();
             }, 600);
         }
+
     </script>
 </body>
 </html>

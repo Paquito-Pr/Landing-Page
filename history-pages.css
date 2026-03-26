@@ -1,0 +1,160 @@
+:root {
+    --bg-dark: #0a0a0a;
+    --bg-card: #141414;
+    --text-main: #ffffff;
+    --text-muted: #a0a0a0;
+    --lean-purple-main: #a020f0;
+    --lean-purple-light: #c792ea;
+    --accent-green: #00ff9d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(160, 32, 240, 0.18), transparent 35%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 157, 0.12), transparent 40%),
+        var(--bg-dark);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding: 32px 5% 48px;
+}
+
+.history-page {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 24px;
+    color: var(--accent-green);
+    font-weight: 700;
+}
+
+.hero-block {
+    background: rgba(20, 20, 20, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 22px;
+}
+
+.hero-block h1 {
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    margin-bottom: 10px;
+}
+
+.hero-block p {
+    color: var(--text-muted);
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.info-card {
+    background: rgba(20, 20, 20, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.info-card h2 {
+    font-size: 1.15rem;
+    color: var(--lean-purple-light);
+    margin-bottom: 10px;
+}
+
+.info-card p,
+.info-card li {
+    color: var(--text-muted);
+}
+
+.info-card ul {
+    margin-left: 18px;
+}
+
+/* SECCIÓN DE ARTISTA INFLUYENTE */
+.artist-highlight {
+    background: rgba(160, 32, 240, 0.1);
+    border: 1px solid var(--accent-green);
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.artist-photo {
+    width: 350px;
+    height: 350px;
+    border-radius: 15px;
+    object-fit: cover;
+    object-position: center top;
+    border: 5px solid var(--accent-green);
+    flex-shrink: 0;
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+}
+
+.artist-info h3 {
+    color: var(--accent-green);
+    margin-bottom: 5px;
+    font-size: 1.4rem;
+}
+
+.artist-info span {
+    color: var(--lean-purple-light);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.artist-info p {
+    margin-bottom: 15px;
+}
+
+.artist-info ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+    list-style-type: disc; /* Esto pone los puntos negros */
+    color: var(--text-muted);
+}
+
+.artist-info li {
+    margin-bottom: 8px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 800px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    .artist-highlight {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    .artist-photo {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+    }
+    .artist-info ul {
+        margin-left: 0;
+        list-style-position: inside; /* Centra mejor las viñetas en móvil */
+    }
+}
