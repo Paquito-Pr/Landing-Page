@@ -8,8 +8,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
+    <!-- EFECTO DE TRANSICIÓN -->
+    <div class="page-wipe" id="pageWipe"></div>
+
+    <!-- OVERLAY TÉCNICO (SCANLINES) -->
+    <div class="scanlines"></div>
+
     <!-- CURSOR PERSONALIZADO -->
     <div class="custom-cursor" id="customCursor">🥤</div>
 
@@ -17,7 +24,7 @@
     <nav class="navbar">
         <div style="display: flex; align-items: center;">
             <button class="hamburger-btn" onclick="toggleMenu()">☰</button>
-            <div class="logo">TRAP HOUSE MUSIC</div>
+            <div class="logo">XXL TRAP HOUSE</div>
         </div>
     </nav>
 
@@ -27,24 +34,45 @@
         <div class="sidebar-header">
             <button class="close-btn" onclick="toggleMenu()">×</button>
         </div>
-        <a href="#" onclick="toggleMenu()"> Inicio</a>
-        <a href="#tracks" onclick="toggleMenu()"> Lanzamientos</a>
-        <a href="#" onclick="toggleMenu()"> Artistas</a>
-        <a href="#" onclick="toggleMenu()"> Playlists</a>
-        <a href="#" onclick="toggleMenu()"> Eventos / Tours</a>
-        <a href="#historia-generos" onclick="toggleMenu()"> Historia</a>
-        <a href="#" onclick="toggleMenu()"> Contacto</a>
+        <a href="#" onclick="toggleMenu()">COVER STORIES</a>
+        <a href="#tracks" onclick="toggleMenu()">FRESHMAN CLASS</a>
+        <a href="#" onclick="toggleMenu()">INTERVIEWS</a>
+        <a href="#" onclick="toggleMenu()">NEWS</a>
+        <a href="#" onclick="toggleMenu()">PLAYLISTS</a>
+        <a href="#historia-generos" onclick="toggleMenu()">CHRONICLES</a>
+        <a href="#" onclick="toggleMenu()">CONTACT</a>
     </div>
 
     <!-- HERO -->
     <section class="hero" id="hero">
-        <h1>El Sonido de la <br><span>CALLE</span></h1>
-        <p>Descubre los mejores beats de Trap Español, US Drill y Reggaeton Latino. La cultura urbana en un solo lugar.</p>
-        <button class="btn" onclick="document.getElementById('tracks').scrollIntoView({behavior: 'smooth'})">Escuchar Ahora</button>
+        <div class="glitch-wrapper">
+            <h1 class="glitch" data-text="THE REAL">THE REAL</h1>
+            <h1 class="glitch-span" data-text="STREET SOUND"><span>STREET SOUND</span></h1>
+        </div>
+        <p>EDICIÓN ESPECIAL: TRAP ESPAÑA & US DRILL</p>
+        <button class="btn" onclick="document.getElementById('tracks').scrollIntoView({behavior: 'smooth'})">READ THE ISSUE</button>
+    </section>
+
+    <!-- SCROLL MARQUEE -->
+    <div class="marquee-container">
+        <div class="marquee-content" id="marquee">
+            XXL TRAP HOUSE • FRESHMAN CLASS 2024 • THE REAL STREET SOUND • XXL TRAP HOUSE • FRESHMAN CLASS 2024 • THE REAL STREET SOUND
+        </div>
+    </div>
+
+    <!-- NEWS SECTION (DYNAMNIC FETCH) -->
+    <section class="news-ticker">
+        <div class="news-title">BREAKING NEWS</div>
+        <div id="news-container" class="news-content">Cargando titulares desde el servidor...</div>
+    </section>
+
+    <!-- BUSCADOR -->
+    <section class="search-section reveal">
+        <input type="text" id="musicSearch" placeholder="BUSCAR ARTISTA O CANCIÓN...">
     </section>
 
     <!-- FILTROS -->
-    <div class="filter-container" id="tracks">
+    <div class="filter-container reveal" id="tracks">
         <button class="filter-btn active" onclick="filterMusic('all', event)">Todo</button>
         <button class="filter-btn" onclick="filterMusic('trap-es', event)">Trap España</button>
         <button class="filter-btn" onclick="filterMusic('trap-us', event)">Trap US</button>
@@ -52,23 +80,26 @@
     </div>
 
     <!-- GRID DE MÚSICA -->
-    <section class="music-grid" id="grid">
+    <section class="music-grid reveal" id="grid">
         <!-- Las tarjetas se generan o filtran aquí. He puesto algunas estáticas para el ejemplo -->
         
         <!-- Card 1: Trap ES -->
         <div class="card" data-category="trap-es">
-            <div class="card-img bg-trap-es" style="background-image: url('https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?auto=format&fit=crop&w=500&q=80');"></div>
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
-                <span class="tag tag-es">Trap Español</span>
+                <span class="tag">EXCLUSIVE INTERVIEW</span>
                 <h3>Barras de Oro</h3>
                 <p>Artista: Yung Beef Type</p>
-                <button class="play-btn">▶</button>
+                <div class="card-actions">
+                    <button class="play-btn">▶</button>
+                    <button class="like-btn" onclick="likeTrack('barras-oro', this)">🔥 <span class="count">0</span></button>
+                </div>
             </div>
         </div>
 
         <!-- Card 2: Trap US -->
         <div class="card" data-category="trap-us">
-            <div class="card-img bg-trap-us" style="background-image: url('https://images.unsplash.com/photo-1601643157091-ce5c61845bb9?auto=format&fit=crop&w=500&q=80');"></div>
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1601643157091-ce5c61845bb9?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
                 <span class="tag tag-us">Trap Americano</span>
                 <h3>Atlanta Nights</h3>
@@ -79,7 +110,7 @@
 
         <!-- Card 3: Reggaeton -->
         <div class="card" data-category="reggaeton">
-            <div class="card-img bg-reggaeton" style="background-image: url('https://images.unsplash.com/photo-1571330735066-03aaa9429d89?auto=format&fit=crop&w=500&q=80');"></div>
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1571330735066-03aaa9429d89?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
                 <span class="tag tag-reg">Reggaeton</span>
                 <h3>Perreo Intenso</h3>
@@ -90,7 +121,7 @@
 
         <!-- Card 4: Trap ES -->
         <div class="card" data-category="trap-es">
-            <div class="card-img bg-trap-es" style="background-image: url('https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&w=500&q=80');"></div>
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
                 <span class="tag tag-es">Trap ES</span>
                 <h3>Callejón 9</h3>
@@ -101,7 +132,7 @@
 
         <!-- Card 5: Reggaeton -->
         <div class="card" data-category="reggaeton">
-            <div class="card-img bg-reggaeton" style="background-image: url('https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=crop&w=500&q=80');"></div>
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
                 <span class="tag tag-reg">Reggaeton</span>
                 <h3>Medallo</h3>
@@ -112,7 +143,7 @@
 
         <!-- Card 6: Trap US -->
         <div class="card" data-category="trap-us">
-            <div class="card-img bg-trap-us" style="background-image: url('https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=500&q=80');"></div>
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=500&q=80');"></div>
             <div class="card-content">
                 <span class="tag tag-us">Trap Americano</span>
                 <h3>Skyline Beats</h3>
@@ -123,7 +154,7 @@
     </section>
 
     <!-- HISTORIA DE CADA GENERO -->
-    <section class="history-section" id="historia-generos">
+    <section class="history-section reveal" id="historia-generos">
         <div class="history-header">
             <h2>Historia de cada g&eacute;nero</h2>
             <p>Explora los or&iacute;genes y la evoluci&oacute;n de cada sonido urbano.</p>
@@ -154,6 +185,20 @@
                 <h3>R&B Urbano</h3>
                 <p>Melod&iacute;as suaves y letras personales sobre bases urbanas modernas.</p>
             </a>
+        </div>
+    </section>
+
+    <!-- CONTACTO (BACKEND INTEGRATION) -->
+    <section class="contact-section reveal">
+        <div class="contact-card">
+            <h2 class="accent-font">JOIN THE SQUAD</h2>
+            <p>Suscríbete para recibir filtraciones exclusivas.</p>
+            <form id="contact-form">
+                <input type="email" id="contact-email" placeholder="TU EMAIL" required>
+                <textarea id="contact-message" placeholder="¿QUÉ TIENES QUE DECIR?" required></textarea>
+                <button type="submit" class="btn">ENVIAR</button>
+            </form>
+            <div id="form-response"></div>
         </div>
     </section>
 
@@ -191,249 +236,5 @@
 
     <!-- Audio de ejemplo (Para producción, usa tu propio archivo local o URL) -->
     <audio id="audio-player" src="https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d2.mp3" crossorigin="anonymous"></audio>
-
-    <script>
-        // Lógica de Filtrado
-        function filterMusic(category, event) {
-            // 1. Actualizar botones activos
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-
-            event.target.classList.add('active');
-
-            // 2. Filtrar tarjetas
-            const cards = document.querySelectorAll('.card');
-            
-            cards.forEach(card => {
-                if (category === 'all') {
-                    card.style.display = 'block';
-                    // Pequeña animación de entrada
-                    card.style.opacity = '0';
-                    setTimeout(() => card.style.opacity = '1', 100);
-                } else {
-                    if (card.getAttribute('data-category') === category) {
-                        card.style.display = 'block';
-                        card.style.opacity = '0';
-                        setTimeout(() => card.style.opacity = '1', 100);
-                    } else {
-                        card.style.display = 'none';
-                    }
-                }
-            });
-        }
-
-        // --- VISUALIZADOR DE MÚSICA & REPRODUCCIÓN ---
-        let audioContext, analyser, source;
-        let isInitialized = false;
-        const audioElement = document.getElementById('audio-player');
-        const canvas = document.getElementById('visualizer');
-        const ctx = canvas.getContext('2d');
-        
-        // Elementos del Player
-        const mainPlayBtn = document.getElementById('main-play-btn');
-        const progressBar = document.getElementById('progress');
-        const currTimeText = document.getElementById('curr-time');
-        const durTimeText = document.getElementById('dur-time');
-        let activeCardBtn = null; // Para sincronizar botón de la tarjeta
-
-        function initAudio() {
-            if (isInitialized) return;
-            
-            // Crear contexto de audio (compatible con Safari/Chrome)
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            analyser = audioContext.createAnalyser();
-            source = audioContext.createMediaElementSource(audioElement);
-            
-            // Conectar: Audio -> Analizador -> Altavoces
-            source.connect(analyser);
-            analyser.connect(audioContext.destination);
-            
-            analyser.fftSize = 64; // Menos barras para el mini visualizador
-            isInitialized = true;
-            animateVisualizer();
-        }
-
-        function animateVisualizer() {
-            requestAnimationFrame(animateVisualizer);
-            
-            canvas.width = canvas.clientWidth;
-            canvas.height = canvas.clientHeight;
-            
-            const bufferLength = analyser.frequencyBinCount;
-            const dataArray = new Uint8Array(bufferLength);
-            analyser.getByteFrequencyData(dataArray);
-            
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            const barWidth = (canvas.width / bufferLength) * 2.5;
-            let x = 0;
-            
-            for (let i = 0; i < bufferLength; i++) {
-                const barHeight = (dataArray[i] / 255) * canvas.height; // Ajustar altura al contenedor
-                
-                // Gradiente Neon (Verde a Morado)
-                const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                gradient.addColorStop(0, '#00ff9d');
-                gradient.addColorStop(1, '#9d4edd');
-                
-                ctx.fillStyle = gradient;
-                ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-                
-                x += barWidth + 1;
-            }
-        }
-
-        const playButtons = document.querySelectorAll('.play-btn');
-        playButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Inicializar AudioContext al primer clic (Política de navegadores)
-                if (!isInitialized) initAudio();
-                if (audioContext.state === 'suspended') audioContext.resume();
-
-                const originalText = this.innerText;
-                
-                // Mostrar la barra de reproducción
-                document.querySelector('.player-bar').classList.add('active');
-
-                // 1. Obtener datos de la tarjeta clickeada
-                const card = this.closest('.card');
-                const title = card.querySelector('h3').innerText;
-                const artist = card.querySelector('p').innerText.replace('Artista: ', '');
-                const coverClass = card.querySelector('.card-img').className; // ej: "card-img bg-trap-es"
-
-                // 2. Actualizar la Barra de Reproducción
-                document.getElementById('current-title').innerText = title;
-                document.getElementById('current-artist').innerText = artist;
-                
-                // Actualizar portada (copiando el estilo de la tarjeta)
-                const playerCover = document.getElementById('current-cover');
-                playerCover.className = 'player-cover'; // Resetear clases
-                // Extraer solo la clase del fondo (bg-trap-es, etc)
-                const bgClasses = coverClass.replace('card-img ', '');
-                playerCover.classList.add(bgClasses);
-                playerCover.innerText = ''; // Quitar texto placeholder
-
-                // Resetear otros botones
-                playButtons.forEach(b => {
-                    b.innerText = '▶';
-                    b.style.background = 'var(--accent-green)';
-                });
-
-                if (originalText === '▶') {
-                    this.innerText = '⏸';
-                    this.style.background = 'var(--accent-red)'; // Color de pausa
-                    mainPlayBtn.innerText = '⏸';
-                    activeCardBtn = this;
-                    audioElement.play();
-                } else {
-                    this.innerText = '▶';
-                    this.style.background = 'var(--accent-green)';
-                    mainPlayBtn.innerText = '▶';
-                    activeCardBtn = null;
-                    audioElement.pause();
-                }
-            });
-        });
-
-        // Control Play/Pause de la barra principal
-        function toggleMainPlay() {
-            if (!isInitialized) initAudio();
-            if (audioElement.paused) {
-                audioElement.play();
-                mainPlayBtn.innerText = '⏸';
-                if(activeCardBtn) {
-                    activeCardBtn.innerText = '⏸';
-                    activeCardBtn.style.background = 'var(--accent-red)';
-                }
-            } else {
-                audioElement.pause();
-                mainPlayBtn.innerText = '▶';
-                if(activeCardBtn) {
-                    activeCardBtn.innerText = '▶';
-                    activeCardBtn.style.background = 'var(--accent-green)';
-                }
-            }
-        }
-
-        // Lógica de la Barra de Progreso y Tiempo
-        audioElement.addEventListener('timeupdate', (e) => {
-            const { duration, currentTime } = e.srcElement;
-            if (duration) {
-                const progressPercent = (currentTime / duration) * 100;
-                progressBar.value = progressPercent;
-                
-                // Actualizar textos de tiempo
-                currTimeText.innerText = formatTime(currentTime);
-                durTimeText.innerText = formatTime(duration);
-            }
-        });
-
-        // Funcionalidad de "Seek" (Mover la barra)
-        progressBar.addEventListener('input', () => {
-            const duration = audioElement.duration;
-            audioElement.currentTime = (progressBar.value * duration) / 100;
-        });
-
-        // --- FUNCIÓN PARA CERRAR REPRODUCTOR ---
-        function closePlayer() {
-            audioElement.pause();
-            document.querySelector('.player-bar').classList.remove('active');
-            
-            // Resetear iconos a Play
-            mainPlayBtn.innerText = '▶';
-            if(activeCardBtn) {
-                activeCardBtn.innerText = '▶';
-                activeCardBtn.style.background = 'var(--accent-green)';
-                activeCardBtn = null;
-            }
-        }
-        // Cerrar automáticamente al terminar la canción
-        audioElement.addEventListener('ended', closePlayer);
-
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
-            return `${min}:${sec < 10 ? '0' + sec : sec}`;
-        }
-
-        // Lógica del Menú Lateral
-        function toggleMenu() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
-        }
-
-        // --- CURSOR PERSONALIZADO & ESTELA ---
-        const cursor = document.getElementById('customCursor');
-        let mouseX = 0;
-        let mouseY = 0;
-
-        // Actualizar posición del cursor principal
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursor.style.left = mouseX + 'px';
-            cursor.style.top = mouseY + 'px';
-
-            createTrail(mouseX, mouseY);
-        });
-
-        // Función para crear partículas (Estela de cadena)
-        function createTrail(x, y) {
-            // Crear elemento div
-            const trail = document.createElement('div');
-            trail.className = 'cursor-trail';
-            trail.style.left = x + 'px';
-            trail.style.top = y + 'px';
-            document.body.appendChild(trail);
-
-            // Eliminar después de la animación
-            setTimeout(() => {
-                trail.remove();
-            }, 600);
-        }
-
-    </script>
 </body>
 </html>

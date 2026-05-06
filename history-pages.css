@@ -3,9 +3,7 @@
     --bg-card: #141414;
     --text-main: #ffffff;
     --text-muted: #a0a0a0;
-    --lean-purple-main: #a020f0;
-    --lean-purple-light: #c792ea;
-    --accent-green: #00ff9d;
+    --xxl-red: #e31b23; /* Rojo principal de XXL */
 }
 
 * {
@@ -16,10 +14,7 @@
 
 body {
     font-family: "Montserrat", sans-serif;
-    background:
-        radial-gradient(circle at 15% 20%, rgba(160, 32, 240, 0.18), transparent 35%),
-        radial-gradient(circle at 80% 80%, rgba(0, 255, 157, 0.12), transparent 40%),
-        var(--bg-dark);
+    background: var(--bg-dark);
     color: var(--text-main);
     line-height: 1.6;
     padding: 32px 5% 48px;
@@ -33,25 +28,29 @@ body {
 .back-link {
     display: inline-block;
     margin-bottom: 24px;
-    color: var(--accent-green);
+    color: var(--xxl-red);
     font-weight: 700;
+    text-transform: uppercase;
 }
 
 .hero-block {
-    background: rgba(20, 20, 20, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
+    background: var(--xxl-red);
+    border: none;
+    border-radius: 0;
     padding: 28px;
     margin-bottom: 22px;
 }
 
 .hero-block h1 {
-    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    font-size: 3.5rem;
+    font-weight: 900;
     margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
 .hero-block p {
-    color: var(--text-muted);
+    color: #fff;
+    font-weight: 700;
 }
 
 .content-grid {
@@ -69,7 +68,9 @@ body {
 
 .info-card h2 {
     font-size: 1.15rem;
-    color: var(--lean-purple-light);
+    color: var(--xxl-red);
+    text-transform: uppercase;
+    font-weight: 900;
     margin-bottom: 10px;
 }
 
@@ -84,9 +85,9 @@ body {
 
 /* SECCIÓN DE ARTISTA INFLUYENTE */
 .artist-highlight {
-    background: rgba(160, 32, 240, 0.1);
-    border: 1px solid var(--accent-green);
-    border-radius: 16px;
+    background: var(--bg-dark); /* Fondo oscuro */
+    border: 5px solid var(--xxl-red); /* Borde rojo grueso */
+    border-radius: 0; /* Bordes cuadrados */
     padding: 25px;
     margin-bottom: 22px;
     display: flex;
@@ -95,18 +96,18 @@ body {
 }
 
 .artist-photo {
-    width: 350px;
-    height: 350px;
-    border-radius: 15px;
+    width: 300px; /* Un poco más pequeña */
+    height: 300px;
+    border-radius: 0; /* Bordes cuadrados */
     object-fit: cover;
     object-position: center top;
-    border: 5px solid var(--accent-green);
+    border: 8px solid var(--text-main); /* Borde blanco grueso */
     flex-shrink: 0;
-    box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+    box-shadow: 0 0 20px rgba(227, 27, 35, 0.4); /* Sombra roja */
 }
 
 .artist-info h3 {
-    color: var(--accent-green);
+    color: var(--text-main); /* Título blanco */
     margin-bottom: 5px;
     font-size: 1.4rem;
 }
