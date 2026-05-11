@@ -1,54 +1,63 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+const cors = require('cors');
+
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
-app.use(express.static(__dirname));
+// Middleware
+app.use(cors()); // Habilita CORS para todas las rutas
+app.use(express.json()); // Para parsear cuerpos de solicitud JSON
+app.use(express.static(path.join(__dirname, 'public'))); // Sirve archivos estáticos desde 'public'
 
-// Estado en memoria para likes (Simulando DB)
-let trackLikes = {
-    'barras-oro': 0,
-    'atlanta-nights': 0,
-    'perreo-intenso': 0
+// Ruta del archivo de datos
+const PEDIDOS_FILE = path.join(__dirname, 'data', 'pedidos.json');
+
+// Asegurar que la carpeta 'data' existe
+if (!fs.existsSync(path.join(__dirname, 'data'))) {
+    fs.mkdirSync(path.join(__dirname, 'data'));
+}
+
+// Función de ayuda para leer pedidos
+const readPedidos = () => {
+    if (!fs.existsSync(PEDIDOS_FILE)) {
+        return [];
+    }
+    const data = fs.readFileSync(PEDIDOS_FILE, 'utf8');
+    return JSON.parse(data);
 };
 
-// Endpoint para obtener noticias (Funcionalidad D)
-app.get('/api/news', (req, res) => {
-    const news = [
-        { title: "Young Thug Libertad", date: "Hace 2h", content: "Nuevas actualizaciones sobre el caso YSL." },
-        { title: "Rolling Loud 2024", date: "Ayer", content: "Cartel confirmado con Travis Scott a la cabeza." },
-        { title: "Novedad: Drill ES", date: "Hoy", content: "El nuevo álbum de Morad rompe récords." }
-    ];
-    res.json(news);
+// Función de ayuda para escribir pedidos
+const writePedidos = (pedidos) => {
+    fs.writeFileSync(PEDIDOS_FILE, JSON.stringify(pedidos, null, 2), 'utf8');
+};
+
+// Rutas de la API
+app.get('/api/pedidos', (req, res) => {
+    const pedidos = readPedidos();
+    res.json(pedidos);
 });
 
-// Endpoint para Likes (Funcionalidad H)
-app.post('/api/like', (req, res) => {
-    const { id } = req.body;
-    if (id in trackLikes) {
-        trackLikes[id]++;
-        res.json({ likes: trackLikes[id] });
-    } else {
-        trackLikes[id] = 1;
-        res.json({ likes: 1 });
+app.post('/api/pedidos', (req, res) => {
+    const newPedido = req.body;
+    if (!newPedido.producto || !newPedido.cantidad) {
+        return res.status(400).json({ message: 'Producto y cantidad son obligatorios.' });
     }
+    const pedidos = readPedidos();
+    pedidos.push({ id: Date.now(), ...newPedido }); // Añade un ID único basado en el timestamp
+    writePedidos(pedidos);
+    res.status(201).json({ message: 'Pedido recibido con éxito.', pedido: newPedido });
 });
 
-// Endpoint para contacto (Funcionalidad E)
-app.post('/api/contact', (req, res) => {
-    const { email, message } = req.body;
-    if (!email || !message) {
-        return res.status(400).json({ error: "Faltan campos obligatorios" });
-    }
-    console.log(`Mensaje recibido de ${email}: ${message}`);
-    res.json({ success: "Mensaje recibido correctamente. ¡Te contactaremos!" });
-});
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
+// Iniciar el servidor
 app.listen(PORT, () => {
-    console.log(`Servidor XXL ejecutándose en http://localhost:${PORT}`);
+    console.log(`TLOU Backend corriendo en http://localhost:${PORT}`);
+    console.log(`Base de datos: ${PEDIDOS_FILE}`);
+    console.log('Rutas disponibles:');
+    console.log('  GET /api/pedidos');
+    console.log('  POST /api/pedidos');
+    console.log('  Accede a la app en http://localhost:3000');
+    console.log('  Visor de JSON en http://localhost:3000/viewer.html');
+    console.log('  Lista de pedidos en http://localhost:3000/pedidos.html');
 });

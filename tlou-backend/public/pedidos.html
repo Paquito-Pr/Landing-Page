@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pedidos</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; color: #555; }
+        tbody tr:nth-child(even) { background-color: #f9f9f9; }
+        tbody tr:hover { background-color: #e9e9e9; }
+        .nav-links { text-align: center; margin-top: 30px; }
+        .nav-links a { margin: 0 10px; text-decoration: none; color: #007bff; }
+        #pedidosTableBody tr.no-pedidos { text-align: center; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Pedidos Realizados</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Notas</th>
+                </tr>
+            </thead>
+            <tbody id="pedidosTableBody">
+                <!-- Los pedidos se cargarán aquí -->
+                <tr><td colspan="4" class="no-pedidos">Cargando pedidos...</td></tr>
+            </tbody>
+        </table>
+        <div class="nav-links">
+            <a href="/">Realizar Nuevo Pedido</a>
+            <a href="/viewer.html">Ver JSON de Pedidos</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const pedidosTableBody = document.getElementById('pedidosTableBody');
+            pedidosTableBody.innerHTML = '<tr><td colspan="4" class="no-pedidos">Cargando pedidos...</td></tr>';
+            try {
+                const response = await fetch('/api/pedidos');
+                const pedidos = await response.json();
+                pedidosTableBody.innerHTML = ''; // Limpiar el mensaje de carga
+                if (pedidos.length === 0) { pedidosTableBody.innerHTML = '<tr><td colspan="4" class="no-pedidos">No hay pedidos registrados aún.</td></tr>'; } else {
+                    pedidos.forEach(pedido => { const row = document.createElement('tr'); row.innerHTML = `<td>${pedido.id}</td><td>${pedido.producto}</td><td>${pedido.cantidad}</td><td>${pedido.notas || '-'}</td>`; pedidosTableBody.appendChild(row); });
+                }
+            } catch (error) { console.error('Error al cargar los pedidos:', error); pedidosTableBody.innerHTML = '<tr><td colspan="4" class="no-pedidos" style="color: red;">Error al cargar los pedidos.</td></tr>'; }
+        });
+    </script>
+</body>
+</html>

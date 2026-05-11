@@ -1,0 +1,359 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XXL TRAP HOUSE - Special Cover</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:wght@400;500;700&family=Archivo+Narrow:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root { --black:#060606; --red:#cc0000; --white:#fff; --gold:#d4af37; --ink:#e8e8e8; --muted:#b7b7b7; --line:#2c2c2c; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--black);color:var(--white);font-family:"Cormorant Garamond",serif;overflow-x:hidden}
+    .print-wash{position:fixed;inset:0;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.02)0,rgba(255,255,255,.02)2px,transparent 2px,transparent 4px);pointer-events:none;z-index:1000;mix-blend-mode:soft-light}
+    .watermark{position:absolute;font-family:"Anton",sans-serif;font-size:clamp(4rem,18vw,18rem);color:rgba(255,255,255,.04);line-height:.8;letter-spacing:2px;z-index:0;user-select:none;pointer-events:none}
+
+    header{border-bottom:6px solid var(--red);padding:1rem;position:sticky;top:0;background:rgba(6,6,6,.95);backdrop-filter:blur(4px);z-index:200}
+    .top-meta{display:flex;justify-content:space-between;gap:1rem;font-family:"Archivo Narrow",sans-serif;font-size:.85rem;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+    .brand{font-family:"Anton",sans-serif;font-size:clamp(2rem,8vw,4.6rem);line-height:.9;letter-spacing:2px;text-transform:uppercase;display:inline-block}
+    .brand::after{content:"CULTURA EN CRUDO";display:block;color:var(--gold);font-size:.22em;letter-spacing:3px;margin-top:.35rem;font-family:"Archivo Narrow",sans-serif}
+    nav{margin-top:.8rem;display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.3rem}
+    nav a{font-family:"Archivo Narrow",sans-serif;color:var(--white);text-decoration:none;white-space:nowrap;padding:.35rem .7rem;border:1px solid var(--line);background:#0e0e0e;font-size:.86rem;text-transform:uppercase}
+    nav a:hover{background:var(--red);border-color:var(--red)}
+
+    .hero{min-height:92vh;position:relative;display:grid;align-items:end;padding:1.2rem;border-bottom:8px solid var(--red);background:linear-gradient(to top,rgba(0,0,0,.88),rgba(0,0,0,.2)),url("https://images.unsplash.com/photo-1571266028243-d220c9f34f20?auto=format&fit=crop&w=1500&q=80") center/cover no-repeat;filter:grayscale(.35) contrast(1.05)}
+    .cover-meta{position:absolute;top:1.2rem;left:1.2rem;right:1.2rem;display:flex;justify-content:space-between;align-items:flex-start;z-index:3;gap:1rem}
+    .masthead{font-family:"Anton",sans-serif;background:var(--red);font-size:clamp(2rem,9vw,6.2rem);line-height:.8;letter-spacing:1px;padding:.4rem .8rem;text-transform:uppercase;box-shadow:8px 8px 0 rgba(0,0,0,.35)}
+    .cover-list{text-align:right;font-family:"Archivo Narrow",sans-serif;text-transform:uppercase;font-size:clamp(.9rem,2vw,1.8rem);line-height:1.1;font-weight:700}
+    .cover-list span{display:block;color:#efe5bf;margin-bottom:.2rem}
+    .hero-content{max-width:980px;position:relative;z-index:2}
+    .tag{display:inline-block;background:var(--red);padding:.3rem .65rem;font-family:"Archivo Narrow",sans-serif;font-size:.8rem;text-transform:uppercase;margin-bottom:.7rem}
+    .hero h1{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:clamp(2.6rem,13vw,10rem);line-height:.85;letter-spacing:1px;margin-bottom:.7rem;text-shadow:0 6px 0 rgba(0,0,0,.55);color:#f1ddb3}
+    .hero p{font-size:clamp(1.1rem,2.8vw,1.6rem);max-width:62ch;color:#fff;font-weight:700}
+
+    .divider{height:6px;background:var(--red)}
+    .main-grid-wrap,.freestyle,.charts,.interview,footer{padding:1rem;position:relative;z-index:2}
+    .main-grid-wrap{overflow:hidden}
+    .main-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr;gap:1rem}
+    .section-title{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:clamp(1.8rem,7vw,4rem);line-height:.9;margin-bottom:.9rem;border-left:10px solid var(--red);padding-left:.7rem}
+    .briefs{padding:1rem;display:grid;grid-template-columns:1fr;gap:1rem}
+    .briefs-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+    .brief-card{border:2px solid var(--line);background:#0c0c0c;padding:.9rem}
+    .brief-card h4{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:1.35rem;line-height:.95;margin-bottom:.45rem}
+    .brief-card p{color:var(--ink);font-size:1.02rem;line-height:1.28}
+    .opinion{padding:1rem}
+    .opinion-wrap{border:2px solid var(--line);background:#0b0b0b;padding:1rem}
+    .opinion-wrap h3{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:clamp(1.5rem,5vw,3rem);line-height:.9;margin-bottom:.6rem}
+    .opinion-wrap p{font-size:1.06rem;line-height:1.4;color:var(--ink);margin-bottom:.6rem}
+    .agenda{padding:1rem}
+    .agenda-grid{display:grid;grid-template-columns:1fr;gap:.8rem}
+    .agenda-item{display:grid;grid-template-columns:88px 1fr;gap:.8rem;border:2px solid var(--line);background:#0d0d0d}
+    .agenda-date{background:var(--red);font-family:"Anton",sans-serif;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+    .agenda-body{padding:.7rem}
+    .agenda-body h4{font-family:"Archivo Narrow",sans-serif;text-transform:uppercase;color:var(--gold);font-size:1rem;margin-bottom:.3rem}
+    .agenda-body p{color:var(--ink);font-size:1rem;line-height:1.26}
+
+    .story{border:2px solid var(--line);background:#0c0c0c;position:relative;overflow:hidden;transform:translateY(22px);opacity:0}
+    .story.reveal{animation:printIn .75s ease forwards}
+    .story img{width:100%;height:220px;object-fit:cover;filter:grayscale(1) contrast(1.1);transition:transform .35s ease,filter .35s ease}
+    .story:hover img{transform:scale(1.06);filter:grayscale(.2)}
+    .story-body{padding:.9rem}
+    .story h3{font-family:"Anton",sans-serif;text-transform:uppercase;font-size:clamp(1.2rem,3.6vw,2.3rem);line-height:.95;margin-bottom:.55rem}
+    .story p{color:var(--ink);font-size:1.05rem;line-height:1.25}
+    .story::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 0 var(--red);transition:box-shadow .25s ease;pointer-events:none}
+    .story:hover::after{box-shadow:inset 0 0 0 4px var(--red),0 0 22px rgba(204,0,0,.35)}
+
+    .video-frame{border:4px solid var(--red);box-shadow:0 0 0 3px #1b1b1b,0 0 0 8px var(--gold);background:#000;aspect-ratio:16/9}
+    .video-frame iframe{width:100%;height:100%;border:0}
+    .charts-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+    .chart-box{border:2px solid var(--line);padding:1rem;background:#0c0c0c}
+    .chart-box h4{font-family:"Archivo Narrow",sans-serif;text-transform:uppercase;color:var(--gold);letter-spacing:1px;margin-bottom:.7rem;font-size:1rem}
+    ol{list-style:none;counter-reset:rank}
+    ol li{counter-increment:rank;display:flex;gap:.7rem;align-items:baseline;padding:.45rem 0;border-bottom:1px solid #202020;font-size:1.07rem}
+    ol li::before{content:counter(rank);font-family:"Anton",sans-serif;color:var(--red);font-size:1.2rem;min-width:1.2rem}
+
+    .interview-layout{display:grid;grid-template-columns:1fr;gap:1rem;border:2px solid var(--line);background:#0b0b0b;padding:1rem}
+    .interview-layout img{width:100%;height:300px;object-fit:cover;filter:grayscale(1)}
+    .interview-copy h3{font-family:"Anton",sans-serif;font-size:clamp(1.8rem,6vw,3.6rem);line-height:.9;text-transform:uppercase;margin-bottom:.6rem}
+    .interview-copy p{line-height:1.45;font-size:1.08rem;color:var(--ink);margin-bottom:.7rem}
+    blockquote{font-family:"Anton",sans-serif;font-size:clamp(1.5rem,6vw,4rem);line-height:.9;color:var(--gold);text-transform:uppercase;margin:.7rem 0 1rem}
+
+    footer{border-top:6px solid var(--red);background:#050505;display:grid;gap:.7rem;font-family:"Archivo Narrow",sans-serif;text-transform:uppercase;font-size:.85rem;color:var(--muted);padding-bottom:4.8rem}
+    .socials{display:flex;gap:.5rem;flex-wrap:wrap}
+    .socials span{border:1px solid var(--line);padding:.3rem .55rem;color:var(--white)}
+
+    .ticker{position:fixed;bottom:0;left:0;right:0;border-top:3px solid var(--gold);background:var(--red);color:var(--white);overflow:hidden;z-index:300;font-family:"Archivo Narrow",sans-serif;text-transform:uppercase;white-space:nowrap}
+    .ticker-track{display:inline-block;padding:.65rem 0;animation:tickerMove 35s linear infinite}
+    .glitch-in{animation:glitch 700ms steps(2) both}
+
+    @keyframes printIn{from{transform:translateY(28px);opacity:0;filter:blur(3px)}to{transform:translateY(0);opacity:1;filter:blur(0)}}
+    @keyframes tickerMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @keyframes glitch{0%{transform:translate(0);text-shadow:0 0 0 transparent}25%{transform:translate(-2px,1px);text-shadow:-2px 0 var(--red)}50%{transform:translate(2px,-1px);text-shadow:2px 0 var(--gold)}75%{transform:translate(-1px,0);text-shadow:-1px 0 var(--red)}100%{transform:translate(0);text-shadow:0 0 0 transparent}}
+
+    @media (min-width:820px){
+      .main-grid{grid-template-columns:1.2fr .9fr 1fr}
+      .story.tall img{height:360px}
+      .story.wide{grid-column:span 2}
+      .story.vertical{grid-row:span 2}
+      .charts-grid{grid-template-columns:1fr 1fr}
+      .interview-layout{grid-template-columns:1fr 1.3fr;align-items:center}
+      .interview-layout img{height:100%;min-height:420px}
+      .briefs-grid{grid-template-columns:repeat(3,1fr)}
+      .agenda-grid{grid-template-columns:1fr 1fr}
+      footer{grid-template-columns:1.2fr 1fr 1fr;align-items:center}
+    }
+  </style>
+</head>
+<body>
+  <div class="print-wash"></div>
+
+  <header>
+    <div class="top-meta">
+      <span>Edicion N. 066</span>
+      <span>Domingo 10 Mayo 2026</span>
+      <span>Madrid / Trap House Issue</span>
+    </div>
+    <div class="brand glitch-in" id="brandLogo">XXL TRAP HOUSE</div>
+    <nav>
+      <a href="#noticias">Noticias</a>
+      <a href="#freestyle">Freestyle</a>
+      <a href="#entrevista">Entrevistas</a>
+      <a href="#charts">Charts</a>
+      <a href="#beef">Drill</a>
+      <a href="#talentos">Nuevos Talentos</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="watermark" style="top:10%; left:-2%;">XXL MODE</div>
+    <div class="cover-meta">
+      <div class="masthead">XXL</div>
+      <div class="cover-list">
+        <span>8Belial lidera el nuevo trap</span>
+        <span>Yeyo rompe en Mexico</span>
+        <span>Fetty Wap vuelve al radar</span>
+        <span>YYY891: apuesta 2026</span>
+      </div>
+    </div>
+    <div class="hero-content">
+      <span class="tag">Edicion Especial / Portada</span>
+      <h1>Trap House + La Nueva Generacion</h1>
+      <p>Del Trap Espanol al Drill, este numero resume la identidad real de tu web: historia de generos, cronicas de calle y las caras que vienen fuerte en 2026.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="main-grid-wrap" id="noticias">
+    <div class="watermark" style="bottom:5%; right:-4%;">URBAN</div>
+    <h2 class="section-title">Radar Trap House</h2>
+    <div class="main-grid">
+      <article class="story wide">
+        <img src="https://images.genius.com/9c74ca29615f4c72b6f2d76c95d4f9b0.1000x1000x1.jpg" alt="8Belial">
+        <div class="story-body">
+          <span class="tag">Portada</span>
+          <h3>8Belial toma el foco: nueva etapa entre drill oscuro y trap experimental</h3>
+          <p>La escena coloca a 8Belial como uno de los nombres mas comentados del circuito underground. Su crecimiento reciente llega con una propuesta mas agresiva en beats y una narrativa visual cada vez mas reconocible dentro del trap espanol.</p>
+        </div>
+      </article>
+
+      <article class="story tall vertical" id="talentos">
+        <img src="https://i.scdn.co/image/ab6761610000e5eb8d6d6dc4fa2f2b1766fa0fe6" alt="Yeyo">
+        <div class="story-body">
+          <span class="tag">Nuevos Talentos</span>
+          <h3>Yeyo acelera en 2026 con mas reproducciones y presencia en playlists urbanas</h3>
+          <p>El artista gana terreno en el radar local con un perfil de calle muy marcado y una evolucion sonora orientada al directo. Redaccion destaca su constancia como una de las claves de su despegue en la temporada.</p>
+        </div>
+      </article>
+
+      <article class="story">
+        <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/Fetty_Wap_%E2%80%93_Fetty_Wap.png" alt="Fetty Wap">
+        <div class="story-body">
+          <span class="tag">Internacional</span>
+          <h3>Fetty Wap vuelve al radar: su catalogo historico recupera fuerza en la nueva ola</h3>
+          <p>El nombre de Fetty Wap regresa a conversaciones y playlists de referencia. Su influencia en el trap melodico sigue pesando en la generacion actual, que retoma su formula de hooks emocionales y energia de calle.</p>
+        </div>
+      </article>
+
+      <article class="story" id="beef">
+        <img src="https://cdn-images.dzcdn.net/images/cover/93bbb75972842f629418c6d29b53af41/0x1900-000000-80-0-0.jpg" alt="YYY891">
+        <div class="story-body">
+          <span class="tag">Madrid</span>
+          <h3>YYY891 consolida su marca: glitch trap, anonimato y comunidad digital fiel</h3>
+          <p>YYY891 sigue creciendo desde una identidad distinta al modelo mainstream. Su mezcla de texturas digitales, barras frias y estetica minimalista lo mantiene como uno de los perfiles mas singulares de la nueva escuela.</p>
+        </div>
+      </article>
+
+      <article class="story">
+        <img src="https://akamai.sscdn.co/uploadfile/letras/fotos/1/d/8/9/1d89496a85fda808b73c9b7da1d85937.jpg" alt="Yung Beef">
+        <div class="story-body">
+          <span class="tag">Analisis</span>
+          <h3>De Yung Beef a la nueva camada: como se conecta el origen con el sonido de hoy</h3>
+          <p>La redaccion repasa el puente entre pioneros del trap espanol y la generacion actual. El resultado: una escena mas hibrida, mas visual y con mayor ambicion internacional que en su primera etapa.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="freestyle" id="freestyle">
+    <h2 class="section-title">Freestyle Of The Week</h2>
+    <div class="video-frame">
+      <iframe id="freestyleVideo" data-youtube-url="https://youtu.be/nGt_JGHYEO4?si=f0_llF7IGeY8nfOY" title="Freestyle destacado" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </section>
+
+
+  <section class="briefs">
+    <h2 class="section-title">Breves del dia</h2>
+    <div class="briefs-grid">
+      <article class="brief-card">
+        <span class="tag">Breaking</span>
+        <h4>8Belial prepara nuevo drop visual y adelanta sonido mas oscuro</h4>
+        <p>Fuentes cercanas al artista apuntan a una etapa con mas peso drill y direccion creativa reforzada para verano.</p>
+      </article>
+      <article class="brief-card">
+        <span class="tag">Industria</span>
+        <h4>Yeyo y YYY891 lideran el crecimiento de visitas en perfiles biograficos</h4>
+        <p>Las dos fichas registran mayor tiempo de lectura esta semana dentro del ecosistema Trap House.</p>
+      </article>
+      <article class="brief-card">
+        <span class="tag">Redaccion</span>
+        <h4>Especial Fetty Wap: impacto del trap melodico en la nueva escena hispana</h4>
+        <p>El equipo editorial publica una pieza de contexto sobre su legado y su influencia en nuevas voces del genero.</p>
+      </article>
+    </div>
+  </section>
+  <section class="charts" id="charts">
+    <h2 class="section-title">Charts Semanales</h2>
+    <div class="charts-grid">
+      <div class="chart-box">
+        <h4>Top 5 Canciones de tu Home</h4>
+        <ol>
+          <li>8Belial - Barras de Oro</li>
+          <li>Yeyo - Callejon 9</li>
+          <li>YYY891 - Error de Sistema</li>
+          <li>Fetty Wap - Trap Queen</li>
+          <li>8Belial x Yeyo - Noche Fria</li>
+        </ol>
+      </div>
+      <div class="chart-box">
+        <h4>Top 5 Artistas destacados</h4>
+        <ol>
+          <li>8Belial</li>
+          <li>Yeyo</li>
+          <li>Fetty Wap</li>
+          <li>YYY891</li>
+          <li>Yung Beef</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="agenda">
+    <h2 class="section-title">Agenda Urbana</h2>
+    <div class="agenda-grid">
+      <article class="agenda-item">
+        <div class="agenda-date">12 MAY</div>
+        <div class="agenda-body">
+          <h4>Debate: Trap Espanol hoy</h4>
+          <p>Panel editorial sobre evolucion de barras, produccion y narrativa visual en la nueva ola nacional.</p>
+        </div>
+      </article>
+      <article class="agenda-item">
+        <div class="agenda-date">14 MAY</div>
+        <div class="agenda-body">
+          <h4>Especial Drill Global</h4>
+          <p>Comparativa Chicago-UK-Espana con foco en ritmo, tematica y expansion de audiencias.</p>
+        </div>
+      </article>
+      <article class="agenda-item">
+        <div class="agenda-date">18 MAY</div>
+        <div class="agenda-body">
+          <h4>Radar Nuevos Talentos</h4>
+          <p>Actualizacion de perfiles destacados con seguimiento a lanzamientos, colaboraciones y directos.</p>
+        </div>
+      </article>
+      <article class="agenda-item">
+        <div class="agenda-date">21 MAY</div>
+        <div class="agenda-body">
+          <h4>Analisis Reggaeton 2026</h4>
+          <p>Revision editorial de tendencias: fusion con trap, tempos de club y peso del mercado latino.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+  <section class="interview" id="entrevista">
+    <h2 class="section-title">Entrevista Exclusiva</h2>
+    <div class="interview-layout">
+      <img src="https://cdn-images.dzcdn.net/images/cover/93bbb75972842f629418c6d29b53af41/0x1900-000000-80-0-0.jpg" alt="YYY891 en entrevista">
+      <div class="interview-copy">
+        <span class="tag">Exclusive</span>
+        <h3>YYY891: "Prefiero crear universo antes que seguir formula"</h3>
+        <blockquote>"El ruido pasa. La identidad se queda."</blockquote>
+        <p>En esta conversacion exclusiva, YYY891 explica por que su proyecto apuesta por una imagen sobria, producciones tensas y una narrativa digital de bajo perfil. Su objetivo no es sonar igual que todos, sino sostener una firma reconocible en cada lanzamiento.</p>
+        <p>Tambien deja una pista sobre futuras colaboraciones con artistas de la casa, incluyendo conexiones con 8Belial y productores de la nueva ola madrilena.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="opinion">
+    <h2 class="section-title">Columna</h2>
+    <div class="opinion-wrap">
+      <span class="tag">Opinion</span>
+      <h3>Del algoritmo al archivo: por que un periodico urbano importa</h3>
+      <p>La escena se mueve a velocidad de clip, pero la cultura se entiende con contexto. Tu web hace justamente eso: ordenar ruido, construir memoria y conectar generaciones del genero.</p>
+      <p>El valor no esta solo en quien pega hoy. Esta en explicar de donde viene cada sonido, quien lo impulso y hacia donde puede ir manana. Ese enfoque convierte una portada en un documento cultural.</p>
+    </div>
+  </section>
+  <footer>
+    <div>
+      <div style="font-family: Anton, sans-serif; color: #fff; font-size: 1.4rem;">XXL TRAP HOUSE</div>
+      <div>Back Cover / Edicion Especial Trap Espana & US Drill</div>
+    </div>
+    <div class="socials"><span>Instagram</span><span>TikTok</span><span>YouTube</span><span>X</span></div>
+    <div>Copyright 2026 XXL Trap House. Todos los derechos reservados.</div>
+  </footer>
+
+  <div class="ticker">
+    <div class="ticker-track">
+      ? BREAKING: 8BELIAL ABRE NUEVA ETAPA VISUAL Y SONORA • ? YEYO SUBE EN PLAYLISTS Y CONSOLIDA SU PERFIL EN 2026 • ? FETTY WAP VUELVE AL RADAR POR SU LEGADO MELODICO • ? YYY891 PREPARA COLABOS CON LA NUEVA OLA DE MADRID •
+      ? BREAKING: 8BELIAL ABRE NUEVA ETAPA VISUAL Y SONORA • ? YEYO SUBE EN PLAYLISTS Y CONSOLIDA SU PERFIL EN 2026 • ? FETTY WAP VUELVE AL RADAR POR SU LEGADO MELODICO • ? YYY891 PREPARA COLABOS CON LA NUEVA OLA DE MADRID •
+    </div>
+  </div>
+
+  <script>
+    function toYoutubeEmbed(url){
+      if(!url) return "";
+      if(url.includes("/embed/")) return url;
+      try{
+        const parsed=new URL(url);
+        const host=parsed.hostname.replace("www.","");
+        let videoId="";
+        if(host==="youtube.com"||host==="m.youtube.com") videoId=parsed.searchParams.get("v")||"";
+        else if(host==="youtu.be") videoId=parsed.pathname.replace("/","");
+        return videoId?`https://www.youtube.com/embed/${videoId}`:"";
+      }catch(e){ return ""; }
+    }
+
+    const freestyleVideo=document.getElementById("freestyleVideo");
+    if(freestyleVideo){
+      const embedUrl=toYoutubeEmbed(freestyleVideo.dataset.youtubeUrl);
+      if(embedUrl) freestyleVideo.src=embedUrl;
+    }
+
+    const stories=document.querySelectorAll(".story");
+    stories.forEach((card,i)=>setTimeout(()=>card.classList.add("reveal"),220+i*160));
+
+    window.addEventListener("load",()=>{
+      const brand=document.getElementById("brandLogo");
+      brand.classList.remove("glitch-in");
+      void brand.offsetWidth;
+      brand.classList.add("glitch-in");
+    });
+  </script>
+</body>
+</html>
+

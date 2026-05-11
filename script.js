@@ -27,32 +27,41 @@ document.querySelectorAll('a').forEach(link => {
         e.preventDefault();
         const destination = link.href;
         const wipe = document.getElementById('pageWipe');
-        wipe.classList.remove('wipe-active');
-        void wipe.offsetWidth; // Force reflow
-        wipe.classList.add('wipe-active');
-        
-        setTimeout(() => {
+        if (wipe) {
+            wipe.classList.remove('wipe-active');
+            void wipe.offsetWidth; // Force reflow
+            wipe.classList.add('wipe-active');
+            
+            setTimeout(() => {
+                window.location.href = destination;
+            }, 600);
+        } else {
             window.location.href = destination;
-        }, 600);
+        }
     });
 });
 
 // --- PARALLAX SUAVE EN EL HERO ---
 document.addEventListener('mousemove', (e) => {
     const hero = document.getElementById('hero');
-    const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
-    const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
-    hero.style.backgroundPosition = `calc(50% + ${moveX}px) calc(50% + ${moveY}px)`;
+    if (hero) {
+        const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+        const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+        hero.style.backgroundPosition = `calc(50% + ${moveX}px) calc(50% + ${moveY}px)`;
+    }
 });
 
 // --- MARQUEE SPEED CONTROL ---
 let lastScrollTop = 0;
 window.addEventListener('scroll', () => {
-    const st = window.pageYOffset || document.documentElement.scrollTop;
-    const diff = Math.abs(st - lastScrollTop);
-    const speed = Math.max(15, 60 - (diff * 0.2)); // Acelera segun el scroll (mínimo 15s, base 60s)
-    document.getElementById('marquee').style.setProperty('--marquee-speed', `${speed}s`);
-    lastScrollTop = st;
+    const marquee = document.getElementById('marquee');
+    if (marquee) {
+        const st = window.pageYOffset || document.documentElement.scrollTop;
+        const diff = Math.abs(st - lastScrollTop);
+        const speed = Math.max(15, 60 - (diff * 0.2)); 
+        marquee.style.setProperty('--marquee-speed', `${speed}s`);
+        lastScrollTop = st;
+    }
 });
 
 // --- 3D TILT EFFECT FOR CARDS (Funcionalidad I) ---
@@ -155,14 +164,56 @@ function filterMusic(category, event) {
 
 // --- FETCH NEWS FROM BACKEND (Funcionalidad D) ---
 async function fetchNews() {
+    // Noticias de reserva por si el servidor falla o no está iniciado
+    const fallbackNews = [
+        { 
+            title: "EDICIÓN DIGITAL XXL: EL FUTURO DEL TRAP", 
+            date: "HOY", 
+            image: "https://images.unsplash.com/photo-1514525253361-bee8a19740c1?auto=format&fit=crop&w=800&q=80",
+            content: "Estamos analizando las tendencias que dominarán la calle este año. Desde el avance del drill hasta las nuevas voces del trap español." 
+        },
+        { 
+            title: "NUEVAS PROMESAS EN EL RADAR", 
+            date: "RECIENTE", 
+            image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
+            content: "Descubre a los artistas que están rompiendo los esquemas en la escena urbana actual." 
+        }
+    ];
+
+    let news = fallbackNews;
+
     try {
         const response = await fetch('/api/news');
-        const news = await response.json();
-        const container = document.getElementById('news-container');
-        container.innerHTML = news.map(item => `[${item.date}] ${item.title}: ${item.content}`).join(' | ');
+        if (response.ok) {
+            news = await response.json();
+        }
     } catch (err) {
-        console.log("Servidor no detectado, operando en modo estático.");
+        console.log("Servidor no detectado, cargando noticias de reserva.");
     }
+
+        // Poblar Ticker Deslizante (Página Principal)
+        const tickerContainer = document.getElementById('news-container');
+        if (tickerContainer) {
+            const newsString = news.map(item => ` <span class="news-item-bullet">⚡</span> [${item.date}] ${item.title.toUpperCase()}: ${item.content}`).join(' ');
+            // Duplicamos el contenido para el bucle infinito del CSS
+            tickerContainer.innerHTML = `<span>${newsString}</span><span>${newsString}</span>`;
+        }
+
+        // Poblar Archivo de Noticias (Página de Noticias)
+        const archiveContainer = document.getElementById('news-archive-list');
+        if (archiveContainer) {
+            archiveContainer.innerHTML = news.map(item => `
+                <article class="news-article-item reveal">
+                    <span class="tag">${item.category || 'NEWS'} | ${item.date}</span>
+                    <h2>${item.title}</h2>
+                    ${item.author ? `<small style="display:block; margin-bottom:10px; font-weight:bold; text-transform:uppercase;">${item.author}</small>` : ''}
+                    ${item.image ? `<img src="${item.image}" class="news-featured-img" alt="News">` : ''}
+                    <p>${item.content}</p>
+                </article>
+            `).join('');
+            const elementsToReveal = archiveContainer.querySelectorAll('.reveal');
+            elementsToReveal.forEach(el => revealObserver.observe(el));
+        }
 }
 
 document.addEventListener('DOMContentLoaded', fetchNews);
@@ -196,7 +247,7 @@ let audioContext, analyser, source;
 let isInitialized = false;
 const audioElement = document.getElementById('audio-player');
 const canvas = document.getElementById('visualizer');
-const ctx = canvas.getContext('2d');
+const ctx = canvas ? canvas.getContext('2d') : null;
 
 // Elementos del Player
 const mainPlayBtn = document.getElementById('main-play-btn');
@@ -206,6 +257,7 @@ const durTimeText = document.getElementById('dur-time');
 let activeCardBtn = null; // Para sincronizar botón de la tarjeta
 
 function initAudio() {
+    if (!audioElement || !canvas || !ctx) return;
     if (isInitialized) return;
     
     // Crear contexto de audio (compatible con Safari/Chrome)
@@ -218,15 +270,18 @@ function initAudio() {
     analyser.connect(audioContext.destination);
     
     analyser.fftSize = 64; // Menos barras para el mini visualizador
+    
+    // Ajustar tamaño del canvas una sola vez o al redimensionar
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    
     isInitialized = true;
     animateVisualizer();
 }
 
 function animateVisualizer() {
+    if (!analyser || !canvas || !ctx) return;
     requestAnimationFrame(animateVisualizer);
-    
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
     
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
@@ -264,6 +319,7 @@ playButtons.forEach(btn => {
 });
 
 function playTrack(btn) {
+    if (!audioElement || !mainPlayBtn) return;
     const isPlaying = btn.innerText === '⏸';
     
     // Resetear todos los botones de las tarjetas
@@ -273,7 +329,8 @@ function playTrack(btn) {
     });
 
     if (!isPlaying) {
-        document.querySelector('.player-bar').classList.add('active');
+        const playerBar = document.querySelector('.player-bar');
+        if (playerBar) playerBar.classList.add('active');
         const card = btn.closest('.card');
         const title = card.querySelector('h3').innerText;
         const artist = card.querySelector('p').innerText.replace('Artista: ', '');
@@ -301,6 +358,7 @@ function playTrack(btn) {
 
 // Control Play/Pause de la barra principal
 function toggleMainPlay() {
+    if (!audioElement || !mainPlayBtn) return;
     if (!isInitialized) initAudio();
     if (audioElement.paused) {
         audioElement.play();
@@ -320,28 +378,34 @@ function toggleMainPlay() {
 }
 
 // Lógica de la Barra de Progreso y Tiempo
-audioElement.addEventListener('timeupdate', (e) => {
-    const { duration, currentTime } = e.srcElement;
-    if (duration) {
-        const progressPercent = (currentTime / duration) * 100;
-        progressBar.value = progressPercent;
-        
-        // Actualizar textos de tiempo
-        currTimeText.innerText = formatTime(currentTime);
-        durTimeText.innerText = formatTime(duration);
-    }
-});
+if (audioElement && progressBar && currTimeText && durTimeText) {
+    audioElement.addEventListener('timeupdate', (e) => {
+        const { duration, currentTime } = e.srcElement;
+        if (duration) {
+            const progressPercent = (currentTime / duration) * 100;
+            progressBar.value = progressPercent;
+            
+            // Actualizar textos de tiempo
+            currTimeText.innerText = formatTime(currentTime);
+            durTimeText.innerText = formatTime(duration);
+        }
+    });
+}
 
 // Funcionalidad de "Seek" (Mover la barra)
-progressBar.addEventListener('input', () => {
-    const duration = audioElement.duration;
-    audioElement.currentTime = (progressBar.value * duration) / 100;
-});
+if (audioElement && progressBar) {
+    progressBar.addEventListener('input', () => {
+        const duration = audioElement.duration;
+        audioElement.currentTime = (progressBar.value * duration) / 100;
+    });
+}
 
 // --- FUNCIÓN PARA CERRAR REPRODUCTOR ---
 function closePlayer() {
+    if (!audioElement || !mainPlayBtn) return;
     audioElement.pause();
-    document.querySelector('.player-bar').classList.remove('active');
+    const playerBar = document.querySelector('.player-bar');
+    if (playerBar) playerBar.classList.remove('active');
     
     // Resetear iconos a Play
     mainPlayBtn.innerText = '▶';
@@ -353,24 +417,26 @@ function closePlayer() {
 }
 
 // REPRODUCCIÓN SIGUIENTE AUTOMÁTICA
-audioElement.addEventListener('ended', () => {
-    if (activeCardBtn) {
-        const currentCard = activeCardBtn.closest('.card');
-        let nextCard = currentCard.nextElementSibling;
-        
-        if (!nextCard || !nextCard.classList.contains('card')) {
-            nextCard = document.querySelector('.card');
-        }
-        
-        if (nextCard && nextCard.style.display !== 'none') {
-            playTrack(nextCard.querySelector('.play-btn'));
+if (audioElement) {
+    audioElement.addEventListener('ended', () => {
+        if (activeCardBtn) {
+            const currentCard = activeCardBtn.closest('.card');
+            let nextCard = currentCard.nextElementSibling;
+            
+            if (!nextCard || !nextCard.classList.contains('card')) {
+                nextCard = document.querySelector('.card');
+            }
+            
+            if (nextCard && nextCard.style.display !== 'none') {
+                playTrack(nextCard.querySelector('.play-btn'));
+            } else {
+                closePlayer();
+            }
         } else {
             closePlayer();
         }
-    } else {
-        closePlayer();
-    }
-});
+    });
+}
 
 function formatTime(seconds) {
     const min = Math.floor(seconds / 60);
@@ -382,17 +448,26 @@ function formatTime(seconds) {
 function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
-    sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
+    if (sidebar) sidebar.classList.toggle('active');
+    if (overlay) overlay.classList.toggle('active');
 }
 
 // --- CURSOR PERSONALIZADO & ESTELA ---
 const cursor = document.getElementById('customCursor');
+let lastTrailTime = 0;
 
 document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-    createTrail(e.clientX, e.clientY);
+    if (cursor) {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        // Optimización: Solo crear estela cada 50ms para evitar lag
+        const now = Date.now();
+        if (now - lastTrailTime > 50) {
+            createTrail(e.clientX, e.clientY);
+            lastTrailTime = now;
+        }
+    }
 });
 
 function createTrail(x, y) {

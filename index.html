@@ -3,218 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trap House Music</title>
+    <title>XXL TRAP HOUSE | Cultura Urbana</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <!-- EFECTO DE TRANSICIÓN -->
+    <!-- Elementos de Capa Superior -->
     <div class="page-wipe" id="pageWipe"></div>
-
-    <!-- OVERLAY TÉCNICO (SCANLINES) -->
     <div class="scanlines"></div>
+    <div class="custom-cursor" id="customCursor">💎</div>
 
-    <!-- CURSOR PERSONALIZADO -->
-    <div class="custom-cursor" id="customCursor">🥤</div>
-
-    <!-- NAVEGACIÓN -->
-    <nav class="navbar">
-        <div style="display: flex; align-items: center;">
-            <button class="hamburger-btn" onclick="toggleMenu()">☰</button>
-            <div class="logo">XXL TRAP HOUSE</div>
-        </div>
-    </nav>
-
-    <!-- MENÚ LATERAL (SIDEBAR) -->
+    <!-- Menú Lateral -->
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    <div class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <button class="close-btn" onclick="toggleMenu()">×</button>
         </div>
-        <a href="#" onclick="toggleMenu()">COVER STORIES</a>
-        <a href="#tracks" onclick="toggleMenu()">FRESHMAN CLASS</a>
-        <a href="#" onclick="toggleMenu()">INTERVIEWS</a>
-        <a href="#" onclick="toggleMenu()">NEWS</a>
-        <a href="#" onclick="toggleMenu()">PLAYLISTS</a>
-        <a href="#historia-generos" onclick="toggleMenu()">CHRONICLES</a>
-        <a href="#" onclick="toggleMenu()">CONTACT</a>
-    </div>
+        <a href="#hero">INICIO</a>
+        <a href="noticias.html">NOTICIAS</a>
+        <a href="#musica">MÚSICA</a>
+        <a href="#historia-generos">HISTORIA</a>
+        <a href="tlou-backend/public/index.html">REALIZAR PEDIDO</a>
+    </nav>
 
-    <!-- HERO -->
+    <!-- Barra de Navegación -->
+    <nav class="navbar">
+        <div class="logo">XXL TRAP HOUSE</div>
+        <button class="hamburger-btn" onclick="toggleMenu()">☰ MENU</button>
+    </nav>
+
+    <!-- Hero Section -->
     <section class="hero" id="hero">
         <div class="glitch-wrapper">
-            <h1 class="glitch" data-text="THE REAL">THE REAL</h1>
-            <h1 class="glitch-span" data-text="STREET SOUND"><span>STREET SOUND</span></h1>
+            <h1 class="glitch" data-text="CULTURA URBANA">CULTURA <span>URBANA</span></h1>
         </div>
-        <p>EDICIÓN ESPECIAL: TRAP ESPAÑA & US DRILL</p>
-        <button class="btn" onclick="document.getElementById('tracks').scrollIntoView({behavior: 'smooth'})">READ THE ISSUE</button>
+        <p class="reveal">EL EPICENTRO DEL TRAP, DRILL Y REGGAETON</p>
+        <a href="#musica" class="btn">EXPLORAR SONIDOS</a>
     </section>
 
-    <!-- SCROLL MARQUEE -->
+    <!-- Ticker de Noticias (Backend Link) -->
+    <a href="noticias.html" class="news-ticker">
+        <div class="news-title">ÚLTIMA HORA</div>
+        <div class="news-content" id="news-container">
+            <!-- Cargado dinámicamente desde el backend -->
+            <span>CARGANDO NOTICIAS DEL SERVIDOR...</span>
+        </div>
+    </a>
+
+    <!-- Marquee Decorativo -->
     <div class="marquee-container">
         <div class="marquee-content" id="marquee">
-            XXL TRAP HOUSE • FRESHMAN CLASS 2024 • THE REAL STREET SOUND • XXL TRAP HOUSE • FRESHMAN CLASS 2024 • THE REAL STREET SOUND
+            XXL SPECIAL EDITION • NUEVOS TALENTOS • UNDERGROUND KINGS • STREET CULTURE • XXL SPECIAL EDITION •
         </div>
     </div>
 
-    <!-- NEWS SECTION (DYNAMNIC FETCH) -->
-    <section class="news-ticker">
-        <div class="news-title">BREAKING NEWS</div>
-        <div id="news-container" class="news-content">Cargando titulares desde el servidor...</div>
-    </section>
-
-    <!-- BUSCADOR -->
+    <!-- Buscador y Filtros -->
     <section class="search-section reveal">
-        <input type="text" id="musicSearch" placeholder="BUSCAR ARTISTA O CANCIÓN...">
+        <input type="text" id="musicSearch" placeholder="BUSCAR ARTISTA O TRACK...">
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterMusic('all', event)">TODOS</button>
+            <button class="filter-btn" onclick="filterMusic('trap', event)">TRAP</button>
+            <button class="filter-btn" onclick="filterMusic('reggaeton', event)">REGGAETON</button>
+            <button class="filter-btn" onclick="filterMusic('drill', event)">DRILL</button>
+        </div>
     </section>
 
-    <!-- FILTROS -->
-    <div class="filter-container reveal" id="tracks">
-        <button class="filter-btn active" onclick="filterMusic('all', event)">Todo</button>
-        <button class="filter-btn" onclick="filterMusic('trap-es', event)">Trap España</button>
-        <button class="filter-btn" onclick="filterMusic('trap-us', event)">Trap US</button>
-        <button class="filter-btn" onclick="filterMusic('reggaeton', event)">Reggaeton</button>
-    </div>
-
-    <!-- GRID DE MÚSICA -->
-    <section class="music-grid reveal" id="grid">
-        <!-- Las tarjetas se generan o filtran aquí. He puesto algunas estáticas para el ejemplo -->
-        
-        <!-- Card 1: Trap ES -->
-        <div class="card" data-category="trap-es">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?auto=format&fit=crop&w=500&q=80');"></div>
+    <!-- Rejilla de Música -->
+    <section class="music-grid" id="musica">
+        <div class="card reveal" data-category="trap">
+            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80');"></div>
             <div class="card-content">
-                <span class="tag">EXCLUSIVE INTERVIEW</span>
-                <h3>Barras de Oro</h3>
-                <p>Artista: Yung Beef Type</p>
+                <span class="tag">TRAP EXPERIMENTAL</span>
+                <h3>ENVIDIA</h3>
+                <p>Artista: 8Belial</p>
                 <div class="card-actions">
                     <button class="play-btn">▶</button>
-                    <button class="like-btn" onclick="likeTrack('barras-oro', this)">🔥 <span class="count">0</span></button>
+                    <button class="like-btn" onclick="likeTrack('envidia', this)">❤ <span class="count">0</span></button>
                 </div>
             </div>
         </div>
-
-        <!-- Card 2: Trap US -->
-        <div class="card" data-category="trap-us">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1601643157091-ce5c61845bb9?auto=format&fit=crop&w=500&q=80');"></div>
+        <div class="card reveal" data-category="reggaeton">
+            <div class="card-img" style="background-image: url('https://i0.wp.com/imgsonica.s3.amazonaws.com/wp-content/uploads/2026/02/quien-es-yeyo-1024x1024.jpg?resize=780%2C780&ssl=1');"></div>
             <div class="card-content">
-                <span class="tag tag-us">Trap Americano</span>
-                <h3>Atlanta Nights</h3>
-                <p>Artista: Future Flow</p>
-                <button class="play-btn">▶</button>
+                <span class="tag">REGGAETON MEX</span>
+                <h3>CHICHABEBA</h3>
+                <p>Artista: Yeyo</p>
+                <div class="card-actions">
+                    <button class="play-btn">▶</button>
+                    <button class="like-btn" onclick="likeTrack('chichabeba', this)">❤ <span class="count">0</span></button>
+                </div>
             </div>
         </div>
-
-        <!-- Card 3: Reggaeton -->
-        <div class="card" data-category="reggaeton">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1571330735066-03aaa9429d89?auto=format&fit=crop&w=500&q=80');"></div>
+        <div class="card reveal" data-category="trap">
+            <div class="card-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/a/a9/Fetty_Wap_%E2%80%93_Fetty_Wap.png');"></div>
             <div class="card-content">
-                <span class="tag tag-reg">Reggaeton</span>
-                <h3>Perreo Intenso</h3>
-                <p>Artista: Bad Bunny Style</p>
-                <button class="play-btn">▶</button>
+                <span class="tag">TRAP CLASSIC</span>
+                <h3>TRAP QUEEN</h3>
+                <p>Artista: Fetty Wap</p>
+                <div class="card-actions">
+                    <button class="play-btn">▶</button>
+                    <button class="like-btn" onclick="likeTrack('trapqueen', this)">❤ <span class="count">0</span></button>
+                </div>
             </div>
         </div>
-
-        <!-- Card 4: Trap ES -->
-        <div class="card" data-category="trap-es">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&w=500&q=80');"></div>
+        <div class="card reveal" data-category="drill">
+            <div class="card-img" style="background-image: url('https://cdn-images.dzcdn.net/images/cover/93bbb75972842f629418c6d29b53af41/0x1900-000000-80-0-0.jpg');"></div>
             <div class="card-content">
-                <span class="tag tag-es">Trap ES</span>
-                <h3>Callejón 9</h3>
-                <p>Artista: Morad Type</p>
-                <button class="play-btn">▶</button>
-            </div>
-        </div>
-
-        <!-- Card 5: Reggaeton -->
-        <div class="card" data-category="reggaeton">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1459749411177-042180ce673c?auto=format&fit=crop&w=500&q=80');"></div>
-            <div class="card-content">
-                <span class="tag tag-reg">Reggaeton</span>
-                <h3>Medallo</h3>
-                <p>Artista: Feid Vibes</p>
-                <button class="play-btn">▶</button>
-            </div>
-        </div>
-
-        <!-- Card 6: Trap US -->
-        <div class="card" data-category="trap-us">
-            <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=500&q=80');"></div>
-            <div class="card-content">
-                <span class="tag tag-us">Trap Americano</span>
-                <h3>Skyline Beats</h3>
-                <p>Artista: Travis Scott Type</p>
-                <button class="play-btn">▶</button>
+                <span class="tag">GLITCH DRILL</span>
+                <h3>ERROR 891</h3>
+                <p>Artista: YYY891</p>
+                <div class="card-actions">
+                    <button class="play-btn">▶</button>
+                    <button class="like-btn" onclick="likeTrack('error891', this)">❤ <span class="count">0</span></button>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- HISTORIA DE CADA GENERO -->
-    <section class="history-section reveal" id="historia-generos">
+    <!-- Sección de Pósteres (Enlaces a Biografías) -->
+    <section class="posters-section">
+        <h2 class="accent-font reveal" style="text-align:center; font-size: 3rem; margin-bottom: 2rem;">STREET KINGS</h2>
+        <div class="posters-grid">
+            <a href="biografia-8belial.html" class="poster-card reveal">
+                <img src="https://yt3.googleusercontent.com/pY8VtifRsjSROhFNf_kfi6KnBENzQ7meNnRpt3pTrR3n-N3m4JB1FVb3X-ulPzqatwRHIOgGl-M=s900-c-k-c0x00ffffff-no-rj" alt="8Belial">
+                <div class="poster-name">8BELIAL</div>
+            </a>
+            <a href="biografia-Yeyo.html" class="poster-card reveal">
+                <img src="https://i0.wp.com/imgsonica.s3.amazonaws.com/wp-content/uploads/2026/02/quien-es-yeyo-1024x1024.jpg?resize=780%2C780&ssl=1" alt="Yeyo">
+                <div class="poster-name">YEYO</div>
+            </a>
+            <a href="biografia-YYY891.html" class="poster-card reveal">
+                <img src="https://cdn-images.dzcdn.net/images/cover/93bbb75972842f629418c6d29b53af41/0x1900-000000-80-0-0.jpg" alt="YYY891">
+                <div class="poster-name">YYY891</div>
+            </a>
+            <a href="biografia-Fetty-Wap.html" class="poster-card reveal">
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/Fetty_Wap_%E2%80%93_Fetty_Wap.png" alt="Fetty Wap">
+                <div class="poster-name">FETTY WAP</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Sección de Historia -->
+    <section class="history-section" id="historia-generos">
         <div class="history-header">
-            <h2>Historia de cada g&eacute;nero</h2>
-            <p>Explora los or&iacute;genes y la evoluci&oacute;n de cada sonido urbano.</p>
+            <h2 class="reveal">LA BIBLIA DEL URBANO</h2>
+            <p class="reveal">Selecciona un género para conocer su origen</p>
         </div>
-
         <div class="history-grid">
-            <a class="history-square history-link" href="historia-trap-es.html" aria-label="Ir a la historia de Trap Español">
-                <h3>Trap Espa&ntilde;ol</h3>
-                <p>Nace de la calle y mezcla barras crudas con producciones oscuras.</p>
+            <a href="historia-trap-es.html" class="history-link reveal">
+                <div class="history-square"><h3>TRAP ESPAÑOL</h3><p>Desde los callejones hasta el mainstream.</p></div>
             </a>
-            <a class="history-square history-link" href="historia-trap-us.html" aria-label="Ir a la historia de Trap US">
-                <h3>Trap US</h3>
-                <p>Atlanta impuls&oacute; un sonido global con beats 808 y autotune.</p>
+            <a href="historia-reggaeton.html" class="history-link reveal">
+                <div class="history-square"><h3>REGGAETON</h3><p>El ritmo que conquistó el planeta entero.</p></div>
             </a>
-            <a class="history-square history-link" href="historia-reggaeton.html" aria-label="Ir a la historia de Reggaeton">
-                <h3>Reggaeton</h3>
-                <p>Del dembow caribe&ntilde;o al mainstream mundial sin perder su esencia.</p>
+            <a href="historia-drill.html" class="history-link reveal">
+                <div class="history-square"><h3>DRILL</h3><p>La crudeza sonora de Chicago y Londres.</p></div>
             </a>
-            <a class="history-square history-link" href="historia-drill.html" aria-label="Ir a la historia de Drill">
-                <h3>Drill</h3>
-                <p>Ritmos fr&iacute;os y energ&iacute;a intensa desde Chicago hasta Europa.</p>
+            <a href="historia-latin-trap.html" class="history-link reveal">
+                <div class="history-square"><h3>LATIN TRAP</h3><p>La nueva era dorada del caribe.</p></div>
             </a>
-            <a class="history-square history-link" href="historia-latin-trap.html" aria-label="Ir a la historia de Latin Trap">
-                <h3>Latin Trap</h3>
-                <p>Fusiona la actitud del trap con el flow latino contempor&aacute;neo.</p>
+            <a href="historia-trap-us.html" class="history-link reveal">
+                <div class="history-square"><h3>TRAP USA</h3><p>El origen del movimiento en Atlanta.</p></div>
             </a>
-            <a class="history-square history-link" href="historia-rnb-urbano.html" aria-label="Ir a la historia de R&B Urbano">
-                <h3>R&B Urbano</h3>
-                <p>Melod&iacute;as suaves y letras personales sobre bases urbanas modernas.</p>
+            <a href="historia-rnb-urbano.html" class="history-link reveal">
+                <div class="history-square"><h3>R&B URBANO</h3><p>Melodía y sentimiento de calle.</p></div>
             </a>
         </div>
     </section>
 
-    <!-- CONTACTO (BACKEND INTEGRATION) -->
-    <section class="contact-section reveal">
-        <div class="contact-card">
-            <h2 class="accent-font">JOIN THE SQUAD</h2>
-            <p>Suscríbete para recibir filtraciones exclusivas.</p>
-            <form id="contact-form">
-                <input type="email" id="contact-email" placeholder="TU EMAIL" required>
-                <textarea id="contact-message" placeholder="¿QUÉ TIENES QUE DECIR?" required></textarea>
-                <button type="submit" class="btn">ENVIAR</button>
-            </form>
-            <div id="form-response"></div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2023 Trap House Music. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- REPRODUCTOR BARRA FIJA -->
+    <!-- Reproductor Fijo -->
     <div class="player-bar">
         <button class="close-player-btn" onclick="closePlayer()">×</button>
         <div class="player-info">
-            <div class="player-cover bg-trap-es" id="current-cover">♫</div>
+            <div class="player-cover" id="current-cover"></div>
             <div class="player-details">
-                <h4 id="current-title">Selecciona una canción</h4>
-                <p id="current-artist">--</p>
+                <h4 id="current-title">Selecciona un track</h4>
+                <p id="current-artist">Artista</p>
             </div>
         </div>
         <div class="player-controls">
@@ -225,16 +192,21 @@
             </div>
             <div class="progress-container">
                 <span id="curr-time">0:00</span>
-                <input type="range" class="progress-bar" id="progress" value="0" max="100">
+                <input type="range" class="progress-bar" id="progress" value="0" min="0" max="100">
                 <span id="dur-time">0:00</span>
             </div>
         </div>
         <div class="player-visualizer">
             <canvas id="visualizer"></canvas>
         </div>
+        <audio id="audio-player"></audio>
     </div>
 
-    <!-- Audio de ejemplo (Para producción, usa tu propio archivo local o URL) -->
-    <audio id="audio-player" src="https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d2.mp3" crossorigin="anonymous"></audio>
+    <footer>
+        <p>&copy; 2024 XXL TRAP HOUSE. ESTILO DE VIDA URBANO.</p>
+        <div style="margin-top: 10px;">
+            <a href="tlou-backend/public/index.html" style="color: var(--xxl-red); font-weight: bold;">[ ÁREA DE PEDIDOS ]</a>
+        </div>
+    </footer>
 </body>
 </html>

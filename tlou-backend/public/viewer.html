@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de Pedidos JSON</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
+        pre { background-color: #eee; padding: 15px; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
+        .nav-links { text-align: center; margin-top: 30px; }
+        .nav-links a { margin: 0 10px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pedidos en formato JSON</h1>
+        <pre id="jsonOutput">Cargando pedidos...</pre>
+        <div class="nav-links">
+            <a href="/">Realizar Nuevo Pedido</a>
+            <a href="/pedidos.html">Ver Lista de Pedidos</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const jsonOutput = document.getElementById('jsonOutput');
+            try { const response = await fetch('/api/pedidos'); const data = await response.json(); jsonOutput.textContent = JSON.stringify(data, null, 2); } catch (error) { console.error('Error al cargar los pedidos:', error); jsonOutput.textContent = 'Error al cargar los pedidos.'; }
+        });
+    </script>
+</body>
+</html>
